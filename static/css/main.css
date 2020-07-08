@@ -1,3 +1,5 @@
-.navbar{
-    background-color: white;    
+.jumbotron {
+    text-align: center;
+    display: inline-flexbox;
+    margin-top: 120px;
 }
