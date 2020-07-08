@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %} Contacts App {% endblock %}
+
+{% block content %}
+
+<div>
+    <form action="/insertUser" method="POST" method="GET">
+        <p> <input type="text" name="username" placeholder="Username"> </p>
+        <p> <input type="password" name="password" placeholder="Password"> </p>
+        <p> <input type="password" name="password2" placeholder="Confirm password"> </p>
+        <p> <button type="submit" name="create">Create account</button> </p>
+      </form>
+</div>
+
+{% endblock %}

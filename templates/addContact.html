@@ -1,10 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %} Contacts App {% endblock %}
+
+{% block content %}
+
 <div class="ContactRegistration"></div>
-    <form action="/add" method="POST">
+    <form action="/insertContact" method="POST">
         <h1>Add new contact</h1>
       <p> <input type="text" name="contact_name" placeholder="Contact name"> </p>
-      <p> <input type="text" name="contact_phone" placeholder="OCntact phone"> </p>
-      <p> <button type="submit" name="login">Log in</button> </p>
+      <p> <input type="text" name="contact_phone" placeholder="Contact phone"> </p>
+      <p> <button type="submit" name="login">Add contact</button> </p>
     </form>
   </div>
-  
+{% endblock %}
   

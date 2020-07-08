@@ -1,9 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %} Contacts App {% endblock %}
+
+{% block content %}
+
 <h1>Logged in</h1>
 <div class="Index">
     <form action="/contacts" method="POST">
         <p><button type="submit">Show contacts</button></p>
     </form>
-    <form action="/redirect" method="POST">
+    <form action="/add" method="POST">
         <p><button type="submit">Add contact</button></p>
     </form>
 </div>
+{% endblock %}

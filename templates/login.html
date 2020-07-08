@@ -1,8 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %} Contacts App {% endblock %}
+
+{% block content %}
 <div class="UserRegistration">
   <form action="/profile" method="POST">
     <p> <input type="text" name="username" placeholder="Username"> </p>
-    <p> <input type="text" name="password" placeholder="Password"> </p>
+    <p> <input type="password" name="password" placeholder="Password"> </p>
     <p> <button type="submit" name="login">Log in</button> </p>
+    <p> New here? <a href="/newUser">Creat an account</a> </p>
   </form>
-</div>
-
+{% endblock %}

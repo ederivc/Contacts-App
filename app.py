@@ -15,52 +15,62 @@ def index():
 
 
 #Home page where the user type the data
-@app.route('/home', methods=["POST"])
+@app.route('/home', methods=["POST", "GET"])
 def login():
     return render_template('login.html')
 
 
 #Log out 
-@app.route('/logout')
+@app.route('/logout', methods=["GET"])
 def logout():
-    session.pop("username", None)
-    return redirect(url_for("index"))
+    if request.method == "GET":
+        if 'username' not in session:
+            return redirect(url_for("login"))
+        else:
+            session.pop("username", None)
+            return redirect(url_for("index"))
     
 
 #Profile page where the user can choose the options
-@app.route('/profile', methods=["POST"])
+@app.route('/profile', methods=["POST", "GET"])
 def profile():
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-
-        x = validate(username, password)
-
-        if x == True:
-            session['username'] = username
-            session['password'] = password
-
+        if 'username' in session:
             return render_template("profile.html")
         else:
-            print("Incorrect data")
-            return render_template("login.html")
+            username = request.form["username"]
+            password = request.form["password"]
+
+            x = validate(username, password)
+
+            if x == True:
+                session['username'] = username
+                session['password'] = password
+
+                return render_template("profile.html")
+            else:
+                print("Incorrect data")
+                return redirect(url_for("login"))
     #Dude
     else:
-        return render_template("profile.html")
+        if 'username' in session:
+            return render_template("profile.html")
+        else:
+            return redirect(url_for("login"))
+            
 
-
-#Redirect in order to add a new contact
-@app.route('/redirect', methods=["POST"])
-def _redirect():
+#Return Add contact template
+@app.route('/add', methods=["POST"])
+def add():
     if 'username' in session:
         return render_template('addContact.html')
 
 
 #Add new contact
-@app.route('/add', methods=["POST"])
-def add():
-    if 'username' in session:
-        if request.method == "POST":
+@app.route('/insertContact', methods=["POST", "GET"])
+def insertContact():
+    if request.method == "POST":
+        if 'username' in session:
 
             user = session["username"]
             contact_name = request.form["contact_name"]
@@ -71,16 +81,15 @@ def add():
             _id = dir.fetchone()
 
             dir = connection.cursor(buffered=True)
-            #INSERT INTO `Contacts` (`ContactId`, `user_id`, `ContactName`, `ContactPhone`) VALUES (NULL, '4', 'Pedro', '333422323');
             dir.execute("INSERT INTO Contacts (user_id, ContactName, ContactPhone) VALUES" +
             "(%s, %s, %s)",(_id[0], contact_name, contact_phone))
 
             connection.commit()
-            return render_template("profile.html")
+            return redirect(url_for("profile"))
 
 
 #Page in which the info is displayed
-@app.route('/contacts', methods=["POST"])
+@app.route('/contacts', methods=["POST", "GET"])
 def display_info():
     if 'username' in session:
         user = session["username"]
@@ -93,8 +102,53 @@ def display_info():
         values = dir.fetchall()  
 
         return render_template('contacts.html', values = values)
-       
+    
+    else:
+        return redirect(url_for("login"))
 
+
+#Return new user template
+@app.route('/newUser', methods=["POST", "GET"])
+def add_newUser():
+    if 'username' in session:
+        return redirect(url_for("profile")) 
+    else:
+        return render_template("newAccount.html")
+
+
+#New user
+@app.route("/insertUser", methods=["POST", "GET"])
+def insertUser():
+    if request.method == "POST":
+        if 'username' in session:
+            print("You are already logged in")
+            return redirect(url_for("profile"))
+
+        else:
+            username = request.form["username"]
+            password = request.form["password"]
+            con_password = request.form["password2"]
+
+            x = validate_user(username, password, con_password)
+
+            if x == True:
+                dir = connection.cursor(buffered=True)
+                dir.execute("INSERT INTO Users (Username, Password) VALUES " +
+                "(%s, %s)", (username, password))
+                print("Added")
+                connection.commit()
+                return redirect(url_for("login"))
+
+            else:
+                print("Error")
+                return redirect(url_for("login"))
+
+    else:
+        if 'username' in session:
+            return redirect(url_for("profile"))
+
+
+#Validate the user when login
 def validate(username, password):
     dir = connection.cursor(buffered=True)
     dir.execute("SELECT Username FROM Users WHERE Username = %s",(username,)) 
@@ -102,6 +156,7 @@ def validate(username, password):
 
     if not value:
         return False
+
     dir = connection.cursor(buffered=True)
     dir.execute("SELECT Password FROM Users WHERE Password = %s",(password,))
     value = dir.fetchone()
@@ -110,6 +165,21 @@ def validate(username, password):
 
     return True
     
+
+#Validate if the user exists and the passwords match
+def validate_user(username, password, con_password):
+    dir = connection.cursor(buffered=True)
+    dir.execute("SELECT Username FROM Users WHERE Username = %s",(username,)) 
+    value = dir.fetchone()
+
+    if not value and password == con_password:
+        if value == "" or password == "":
+            return False
+        print("Correct")
+        return True
+
+    return False
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,7 +1,12 @@
-<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
-<h1>Contacts App</h1>
+{% extends "layout.html" %}
+
+{% block title %} Contacts App {% endblock %}
+
+{% block content %}
 <div class="Index">
     <form action="/home" method="POST">
+        <h2> Store your contacts </h2>
         <p><button type="submit">Get started</button></p>
     </form>
 </div>
+{% endblock %}
