@@ -34,10 +34,49 @@ def profile():
         username = request.form["username"]
         password = request.form["password"]
 
-        session['username'] = username
-        session['password'] = password
+        x = validate(username, password)
 
+        if x == True:
+            session['username'] = username
+            session['password'] = password
+
+            return render_template("profile.html")
+        else:
+            print("Incorrect data")
+            return render_template("login.html")
+    #Dude
+    else:
         return render_template("profile.html")
+
+
+#Redirect in order to add a new contact
+@app.route('/redirect', methods=["POST"])
+def _redirect():
+    if 'username' in session:
+        return render_template('addContact.html')
+
+
+#Add new contact
+@app.route('/add', methods=["POST"])
+def add():
+    if 'username' in session:
+        if request.method == "POST":
+
+            user = session["username"]
+            contact_name = request.form["contact_name"]
+            contact_phone = request.form["contact_phone"]
+
+            dir = connection.cursor(buffered=True)
+            dir.execute("SELECT UserId FROM Users WHERE Username = %s",(user,))
+            _id = dir.fetchone()
+
+            dir = connection.cursor(buffered=True)
+            #INSERT INTO `Contacts` (`ContactId`, `user_id`, `ContactName`, `ContactPhone`) VALUES (NULL, '4', 'Pedro', '333422323');
+            dir.execute("INSERT INTO Contacts (user_id, ContactName, ContactPhone) VALUES" +
+            "(%s, %s, %s)",(_id[0], contact_name, contact_phone))
+
+            connection.commit()
+            return render_template("profile.html")
 
 
 #Page in which the info is displayed
@@ -48,14 +87,29 @@ def display_info():
         password = session["password"]
 
         values = [user, password]
+        dir = connection.cursor()
+        dir.execute("SELECT * FROM Contacts WHERE user_id =" +
+        "(SELECT UserId FROM Users WHERE Username = %s)", (user,))
+        values = dir.fetchall()  
 
         return render_template('contacts.html', values = values)
+       
 
+def validate(username, password):
+    dir = connection.cursor(buffered=True)
+    dir.execute("SELECT Username FROM Users WHERE Username = %s",(username,)) 
+    value = dir.fetchone()
 
-#Add new contact
-@app.route('/add')
-def add_contact():
-    pass
+    if not value:
+        return False
+    dir = connection.cursor(buffered=True)
+    dir.execute("SELECT Password FROM Users WHERE Password = %s",(password,))
+    value = dir.fetchone()
+    if not value:
+        return False
+
+    return True
+    
 
 if __name__ == "__main__":
     app.run(debug=True)

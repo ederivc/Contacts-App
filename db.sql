@@ -15,3 +15,8 @@ CREATE TABLE Contacts (
     FOREIGN KEY (user_id) REFERENCES Users(UserId)
 );
 
+INSERT INTO Users (Username, Password) VALUES (eder, dd); 
+
+SELECT * FROM Contacts WHERE user_id = (SELECT UserId FROM Users WHERE Username = "eder");
+
+INSERT INTO `Contacts` (`user_id`, `ContactName`, `ContactPhone`) VALUES ('6', 'Pedro', '333422323');
