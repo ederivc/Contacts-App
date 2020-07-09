@@ -1,10 +1,26 @@
 .jumbotron {
+    display: inline-flexbox;
+    width: 1000px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #222f3e;
+    text-align: center;
+    border-radius: 24px;
+}
+
+/*This is the last one
+/*.jumbotron {
+.jumbotron {
     background: #222f3e;
     text-align: center;
     color: #c8d6e5;
     display: inline-flexbox;
     margin-top: 240px;
 }
+}*/
 
 body {
     background: #4B79A1;  /* fallback for old browsers */
