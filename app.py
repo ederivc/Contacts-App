@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, session
+from flask import Flask, render_template, url_for, request, redirect, session, flash
 import mysql.connector as mysql
 
 app = Flask(__name__)
@@ -11,7 +11,12 @@ connection = mysql.connect(host='localhost',
 #Main page
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if 'username' not in session:
+        return render_template('index.html')
+    else:
+        session.pop("username", None)
+        return render_template('index.html')
+    
 
 
 #Home page where the user type the data
@@ -25,8 +30,10 @@ def login():
 def logout():
     if request.method == "GET":
         if 'username' not in session:
+            flash("You are not logged in", 'error')
             return redirect(url_for("login"))
         else:
+            flash("You were succesfully logged out", 'message')
             session.pop("username", None)
             return redirect(url_for("index"))
     
@@ -47,15 +54,18 @@ def profile():
                 session['username'] = username
                 session['password'] = password
 
+                flash('You were successfully logged in')
                 return render_template("profile.html")
             else:
-                print("Incorrect data")
+                flash('Incorrect data, try again.', 'error')
                 return redirect(url_for("login"))
     #Dude
     else:
         if 'username' in session:
+            #flash("You are already logged in.", 'message')
             return render_template("profile.html")
         else:
+            #flash("You are already logged in.", 'message')
             return redirect(url_for("login"))
             
 
