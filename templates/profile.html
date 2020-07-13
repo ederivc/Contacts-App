@@ -4,13 +4,39 @@
 
 {% block content %}
 
-<h1>Logged in</h1>
-<div class="Index">
+<!--div class="Index">
+    <h1>Logged in</h1> 
     <form action="/contacts" method="POST">
         <p><button type="submit">Show contacts</button></p>
     </form>
     <form action="/add" method="POST">
         <p><button type="submit">Add contact</button></p>
     </form>
+</div--->
+
+<div class="card-container" method="POST" method="GET">
+
+    <div class="upper-container">
+        <div class="image-container">
+            <img src="https://cdn2.iconfinder.com/data/icons/people-80/96/Picture1-512.png">
+        </div>
+    </div>
+
+    <div class="lower-container">
+        <div>
+            <h3>Eder Rivera</h3>
+            <h4>ederivc</h4>
+        </div>
+        <div>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipiscdccccccccf, jkhkjhj
+                indus odit saepe, omnis,, dolore?
+            </p>
+        </div>
+        <div>
+            <a href="/contacts" class="btn">Contacts</a>
+            <a href="/add" class="btn" method="POST" >Add contact</a>
+        </div>
+    </div>
 </div>
 {% endblock %}

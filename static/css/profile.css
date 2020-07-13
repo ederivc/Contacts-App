@@ -1,0 +1,120 @@
+/*.Index{
+    width: 400px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #222f3e;
+    text-align: center;
+    border-radius: 24px;
+}
+
+.Index h1 {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.Index input[type = "password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #8395a7;
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+}*/
+
+.card-container {
+    width: 300px;
+    height: 430px;
+    background: #FFF;
+    border-radius: 6px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 1px 10px 1px #000;
+    overflow: hidden;
+    display: inline-block;
+    color: black;
+}
+
+.upper-container {
+    height: 150px;
+    background: #616247FF;
+}
+
+.image-container {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    padding: 5px;
+    transform: translate(100px, 100px);
+}
+
+.image-container img{
+    background: white;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%; 
+}
+
+.lower-container {
+    background: #DAA03DFF;
+    height: 280px;
+    padding: 20px;
+    padding-top: 40px;
+    text-align: center;
+}
+
+.lower-container h3, h4 {
+    box-sizing: border-box;
+    line-height: .6;
+    font-weight: lighter;
+}
+
+.lower-container h3 {
+    padding-top: 5px;
+}
+
+.lower-container h4 {
+    color: blue;
+    opacity: .6;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+.lower-container p {
+    font-size: 16px;
+    color: gray;
+    margin-bottom: 30px;
+}
+
+.lower-container .btn {
+    padding: 12px 20px;
+    background: #7F00FF;
+    border: none;
+    color: white;
+    border-radius: 30px;
+    font-size: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all .3s ease-in;
+}
+
+.lower-container .btn:hover {
+    background: transparent;
+    color: #7F00FF;
+    border: 2px solid #7F00FF;
+}
+
+.lower-container a {
+    color: black;
+}

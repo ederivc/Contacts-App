@@ -70,7 +70,7 @@ def profile():
             
 
 #Return Add contact template
-@app.route('/add', methods=["POST"])
+@app.route('/add', methods=["POST", "GET"])
 def add():
     if 'username' in session:
         return render_template('addContact.html')
