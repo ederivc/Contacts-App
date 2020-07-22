@@ -1,5 +1,5 @@
-.newAccount{
-    width: 400px;
+.CreateAccount{
+    width: 700px;
     padding: 40px;
     position: absolute;
     top: 50%;
@@ -8,15 +8,16 @@
     background: #222f3e;
     text-align: center;
     border-radius: 24px;
+    box-shadow: 5px 5px 10px 1px #000;
 }
 
-.newAccount h1 {
+.CreateAccount h1 {
     color: white;
     text-transform: uppercase;
     font-weight: 500;
 }
 
-.newAccount input[type = "text"],.newAccount input[type = "password"]{
+.CreateAccount input[type = "text"],.CreateAccount input[type = "password"] {
     border: 0;
     background: none;
     display: block;
@@ -24,19 +25,19 @@
     text-align: center;
     border: 2px solid #8395a7;
     padding: 14px 10px;
-    width: 200px;
+    width: 350px;
     outline: none;
     color: white;
     border-radius: 24px;
     transition: 0.25s;
 }
 
-.newAccount input[type = "text"]:focus,.newAccount input[type = "password"]:focus {
-    width: 280px;
+.CreateAccount input[type = "text"]:focus,.CreateAccount input[type = "password"]:focus {
+    width: 380px;
     border-color: #1dd1a1;
 }
 
-.newAccount button[type = "submit"] {
+.CreateAccount button[type = "submit"] {
     border: 0;
     background: none;
     display: block;
@@ -51,6 +52,10 @@
     cursor: pointer;
 }
 
-.newAccount button[type = "submit"]:focus {
+.CreateAccount button[type = "submit"]:focus {
     background: #10ac84;
+}
+
+.CreateAccount input[type = "text"]:hover, .CreateAccount input[type = "password"]:hover {
+    border: 2px solid #10ac84;
 }

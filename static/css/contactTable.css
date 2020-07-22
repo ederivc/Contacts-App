@@ -1,0 +1,67 @@
+/* 
+.conTab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tableT{
+    margin-top: 20px;
+    height: 500px;
+    width: 900px;
+} 
+*/
+
+.conTab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tableT{
+    width: 900px;
+    margin-top: 50px;
+    background-color: #FFF;
+    max-height: 500px;
+    overflow-y: auto;
+    box-shadow: 0 10px 50px 0px rgba(0, 0, 0, 0.5);
+}
+
+#headContacts th,
+#bodyContacts td {
+    padding: 15px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+#headContacts th {
+    background: #454ac4;
+    color: #eee;
+    font-size: 16px;
+    text-align: center;
+    position: sticky;
+    top: -1px;
+}
+
+#bodyContacts td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#headContacts th:nth-child(1),
+#bodyContacts td:nth-child(1){
+    width: 90px;
+    text-align: center;
+}
+
+#bodyContacts td:nth-child(1) {
+    background: #454ac4;
+    color: #eee;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+#bodyContacts td:hover{
+    background: rgba(0, 0, 0, 0.3);
+}
