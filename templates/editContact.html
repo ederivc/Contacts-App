@@ -2,8 +2,18 @@
 
 {% block title %} Contacts App {% endblock %}
 
-{% block body %}
+{% block content %}
 
+<div class="yoo">
 
+    <form action="/modify_contact/{{values.0}}" method="POST" method="GET">
+    
+        <p><input type="text" name="name" placeholder="Name" value="{{ values.2 }}"> </p>
+        <p><input type="text" name="phone" placeholder="Phone" value="{{ values.3 }}"> </p>
+        <p><button type="submit"> Modify </button></p>
+       
+    </form>
+
+</div>
 
 {% endblock %}

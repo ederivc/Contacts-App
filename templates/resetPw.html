@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="static/css/bootstrap.min.css">
-<link rel="stylesheet" href="static/css/main.css">
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/main.css">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet"> 
 
 <title>Contacts App</title>
@@ -27,13 +27,13 @@
     </div>
   </nav> 
 
-<div class="ContactRegistration">
-    <form action="/insertContact" method="POST" method="GET">
-      <p><h1>New contact</h1></p>
-      <p> <input type="text" name="contact_name" placeholder="Contact name"> </p>
-      <p> <input type="text" name="contact_phone" placeholder="Contact phone"> </p>
-      <p> <button type="submit" name="login">Add contact</button> </p>
+<div class="UserRegistration">
+    <form method="POST" method="GET">
+      <p> <h1>Reset password</h1> </p>
+      <p> <input type="password" name="password" placeholder="Password"> </p>
+      <p> <input type="password" name="conf-password" placeholder="Confirm password"> </p>
+      <p> <button type="submit" name="resetPw">Create acount</button> </p>
     </form>
   </div>
+
 {% endblock %}
-  

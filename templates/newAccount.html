@@ -4,31 +4,18 @@
 
 {% block content %}
 
-<div class="newAccount">
-  <form action="/insertUser" method="POST" method="GET">
-    <p> <h1>Create account</h1> </p>
-    <table>
-      <tr>
-        <th>
-          <p> <input type="text" name="name" placeholder="First name"> </p>
-        </th>
-        <th>
-          <p> <input type="text" name="last_name" placeholder="Last name"> </p>
-        </th>
-      </tr>
-      <tr>
-        <th>
-          <p> <input type="text" name="username" placeholder="Username"> </p>
-          <p> <input type="text" name="email" placeholder="Email"> </p>
-        </th>
-        <th>
-          <p> <input type="password" name="password" placeholder="Password"> </p>
-          <p> <input type="password" name="password2" placeholder="Confirm password"> </p>
-        </th>
-      </tr>
-    </table>
-    <p> <button type="submit" name="create">Create account</button> </p>
-  </form>
-</div>
+
+<div class="CreateAccount">
+    <p> <h1>Create your account</h1> </p>
+    <form action="/insertUser" method="POST" class="newAccountForm">
+      <p> <input type="text" name="name" placeholder="Name"> </p>
+      <p> <input type="text" name="username" placeholder="Username"> </p>
+      <p> <input type="password" name="password" placeholder="Password"> </p>
+      <p> <input type="password" name="conf-password" placeholder="Confirm password"> </p>
+      <p> <input type="text" name="email" placeholder="Email"> </p>
+      <p> <button type="submit" name="createAcc">Create acount</button> </p>
+    </form>
+  </div>
+
 
 {% endblock %}

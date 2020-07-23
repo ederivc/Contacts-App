@@ -10,13 +10,13 @@ from validations import (validate, validate_email, validate_existing_email, vali
                         validate_user, validate_image, validate_contact, validate_existing_image) 
 
 app = Flask(__name__)
-app.secret_key = "hola"
+app.secret_key = "7h76hg8E"
 connection = mysql.connect(host='localhost',
                         user='root',
                         passwd='',
                         database='userContacts')
 
-app.config["IMAGE_UPLOADS"] = "/home/peppa/Documentos/Python/Contacts-App-master/static/img/upload"
+app.config["IMAGE_UPLOADS"] = "/home/ederivc/Documents/Python/Contacts-App-master/static/img/upload"
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG", "JPG", "JPEG"]
 app.config["MAX_IMAGE_FILESIZE"] = 3 * 1024 * 1024
 
@@ -30,7 +30,6 @@ def index():
         session.pop("username", None)
         return render_template('index.html')
     
-
 
 #Home page where the user type the data
 @app.route('/home', methods=["POST", "GET"])
@@ -98,7 +97,8 @@ def insertContact():
             contact_phone = request.form["contact_phone"]
 
             if not contacts_format(contact_name, contact_phone):
-                flash("Invalid format", "error")
+                flash("""Invalid format, you must write a name and phone number must have 10
+                digits""", "error")
                 return redirect(url_for("profile"))
 
             if not validate_contact(user, contact_phone, connection):
@@ -154,12 +154,13 @@ def search_contacts():
     if "username" in session:
         if request.method == "POST":
             user = session["username"]
-            search_names = request.form["search"]
+            search_value = request.form["search"]
 
             dir = connection.cursor()
             dir.execute("""SELECT * FROM Contacts WHERE user_id =  
-            (SELECT UserId FROM Users WHERE Username = %s) AND ContactName 
-            LIKE %s """, (user, "%" + search_names + "%"))
+            (SELECT UserId FROM Users WHERE Username = %s) AND (ContactName 
+            LIKE %s OR ContactPhone LIKE %s)""", (user, "%" + search_value + "%",
+            "%" + search_value + "%"))
             values = dir.fetchall() 
 
             return render_template('search.html', values = values) 
@@ -201,7 +202,7 @@ def insertUser():
                 VALUES (%s, %s, %s, %s)""", (username, hashed, name, email))
                 connection.commit() 
 
-                flash("Cuenta creada correctamente")
+                flash("Account created successfully", "message")
                 return redirect(url_for("login"))
 
             else:
@@ -224,20 +225,14 @@ def editContact(act_phone):
                 flash("Invalid format", "error")
                 return redirect(url_for("display_info"))
 
-            try:
-                dir = connection.cursor(buffered=True)   
-                dir.execute("UPDATE Contacts SET ContactName = %s, ContactPhone = %s " +
-                "WHERE ContactPhone = %s", (name, phone, act_phone))
+            dir = connection.cursor(buffered=True)   
+            dir.execute("UPDATE Contacts SET ContactName = %s, ContactPhone = %s " +
+            "WHERE ContactPhone = %s", (name, phone, act_phone))
 
-                connection.commit()
+            connection.commit()
 
-                flash('User modified successfully')
-                return redirect(url_for("display_info"))
-
-            except Exception as e:
-                print(e)
-                flash("Erroooooor", 'error')
-                return redirect(url_for("login"))
+            flash('User modified successfully')
+            return redirect(url_for("display_info"))
 
 
 #Delete contact
@@ -351,17 +346,18 @@ def upload_image():
                     flash("Incorrect file", "error")
                     return redirect(url_for("profile"))
                 else:
-                    old_path = get_image_path(user)
+                    old_image_path = get_image_path(user)
                     filename = secure_filename(image.filename)
 
                 image_url = os.path.join("/static/img/upload", filename)
-
+                complete_image_path = os.path.join(app.config["IMAGE_UPLOADS"], old_image_path)
+                
                 dir = connection.cursor(buffered=True)
                 dir.execute("""UPDATE Users SET ImagePath = %s WHERE
                 Username = %s""",(image_url, user))
                 connection.commit()
 
-                existing_path = validate_existing_image(old_path, connection)
+                validate_existing_image(old_image_path, complete_image_path, connection)
                 image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
 
                 return redirect(url_for("profile"))
@@ -408,13 +404,14 @@ def get_image():
 
 def get_image_path(user):
     dir = connection.cursor()
-    dir.execute(""" SELECT ImagePath FROM Users WHERE User = %s """, (user,))
+    dir.execute("SELECT ImagePath FROM Users WHERE Username = %s", (user,))
     path = dir.fetchone()
 
     if path[0] == None:
         return "/static/img/upload/anything"
     else:
-        return path[0]
+        img_name = path[0].rsplit("/", 1)[1]
+        return img_name
     
 
 def contacts_format(name, phone):

@@ -85,15 +85,11 @@ def validate_token(token, connection):
 
 #Validate contact
 def validate_contact(user, phone, connection):
-    #dir = connection.cursor(buffered=True)
-    #dir.execute("SELECT ContactPhone FROM Contacts WHERE ContactPhone = %s", (phone,))
-    #value = dir.fetchone()
-
     dir = connection.cursor()
-    dir.execute("SELECT ContactPhone FROM Contacts WHERE user_id =" +
-    "(SELECT UserId FROM Users WHERE Username = %s)", (user,))
+    dir.execute("""SELECT ContactPhone FROM Contacts WHERE user_id = 
+    (SELECT UserId FROM Users WHERE Username = %s) AND ContactPhone = %s""", (user, phone))
     value = dir.fetchone()      
-
+    #print(value[0])
     if not value:
         return True
     else:
@@ -111,19 +107,45 @@ def validate_image(filename, config):
     else:
         return False
 
-def validate_existing_image(image_path, connection):
+"""def validate_existing_image(old_image_path, complete_image_url, connection):
     dir = connection.cursor()
-    dir.execute("""SELECT ImagePath FROM Users WHERE ImagePath = 
-    %s """,(image_path,))
-    path = dir.fetchall()
+    dir.execute(""""""SELECT ImagePath FROM Users WHERE ImagePath LIKE  
+    %s """""",("%" + old_image_path,))
+    path = dir.fetchone()
 
-    if path:
-        pass
+    print("aqui")
+    print(path)
+
+    if path == None:
+        print("no",complete_image_url)
+        if os.path.exists(complete_image_url):
+            os.remove(complete_image_url)
+        else:
+            pass
     else:
-        if image_path == "/static/img/upload/anything":
+        if old_image_path == "/static/img/upload/anything":
             pass
         else:
-            if os.path.exists(image_path):
-                os.remove(image_path)
+            print(complete_image_url)
+            if os.path.exists(complete_image_url):
+                os.remove(complete_image_url)
+            else:
+                pass"""
+
+def validate_existing_image(old_image_path, complete_image_path, connection):
+    if old_image_path == "/static/img/upload/anything":
+        pass
+    else:
+        dir = connection.cursor()
+        dir.execute("""SELECT Username FROM Users WHERE ImagePath LIKE
+        %s """,("%" + old_image_path,))
+        path = dir.fetchall()
+        
+        if not path:
+            if os.path.exists(complete_image_path):
+                os.remove(complete_image_path)
             else:
                 pass
+
+        else:
+            pass

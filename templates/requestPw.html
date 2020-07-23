@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="requestPw">
+    <form action="/requestResetPw" method="POST">
+        <p><h1>Enter your email address</h1></p>
+        <p><input type="text" name="email" placeholder="Enter your email"></p>
+        <p><button type="submit"> Send me an email </button></p>
+    </form>
+</div>
+{% endblock %}
